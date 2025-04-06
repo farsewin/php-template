@@ -39,10 +39,20 @@ function base_path($path)
     return BASE_PATH . $path;
 }
 
-function view($path, $attributes = [])
-{
-    extract($attributes);
+function generateCsrfToken() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
 
+function validateCsrfToken($token) {
+    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+}
+
+function view($path, $attributes = []) {
+    $attributes['csrf_token'] = generateCsrfToken();
+    extract($attributes);
     require base_path('views/' . $path);
 }
 

@@ -11,6 +11,7 @@
             </div>
 
             <form class="mt-8 space-y-6" action="/session" method="POST">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
                 <div class="-space-y-px rounded-md shadow-sm">
                     <div>
                         <label for="email" class="sr-only">Email address</label>
